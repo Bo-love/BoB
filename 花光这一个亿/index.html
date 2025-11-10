@@ -1,0 +1,1744 @@
+<html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>富豪的生活</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FFD700', // 金色
+            secondary: '#C2185B', // 玫红色
+            accent: '#FF5722', // 橙色
+            dark: '#1A237E', // 深蓝色
+            light: '#F5F5F5', // 浅灰色
+            success: '#4CAF50', // 绿色
+            danger: '#F44336', // 红色
+            warning: '#FFC107', // 黄色
+            info: '#2196F3', // 蓝色
+          },
+          fontFamily: {
+            sans: ['Arial', 'sans-serif'],
+          },
+          animation: {
+            'bounce-slow': 'bounce 2s infinite',
+            'pulse-slow': 'pulse 3s infinite',
+            'spin-slow': 'spin 3s linear infinite',
+            'fade-in': 'fadeIn 0.5s ease-in-out',
+            'slide-in': 'slideIn 0.5s ease-in-out',
+            'zoom-in': 'zoomIn 0.3s ease-in-out',
+            'money-fly': 'moneyFly 1s ease-in-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideIn: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            zoomIn: {
+              '0%': { transform: 'scale(0.95)', opacity: '0' },
+              '100%': { transform: 'scale(1)', opacity: '1' },
+            },
+            moneyFly: {
+              '0%': { transform: 'translateY(0) rotate(0deg)', opacity: '1' },
+              '100%': { transform: 'translateY(-100px) rotate(20deg)', opacity: '0' },
+            },
+          },
+          boxShadow: {
+            'gold': '0 0 15px 2px rgba(255, 215, 0, 0.5)',
+            'neon': '0 0 5px theme("colors.primary"), 0 0 20px theme("colors.primary")',
+          },
+          backgroundImage: {
+            'gold-gradient': 'linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FFA000 100%)',
+            'red-gradient': 'linear-gradient(135deg, #C2185B 0%, #E91E63 50%, #F06292 100%)',
+            'blue-gradient': 'linear-gradient(135deg, #1A237E 0%, #3F51B5 50%, #7986CB 100%)',
+          },
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+      .text-shadow-gold {
+        text-shadow: 0 0 5px #FFD700, 0 0 10px #FFC107;
+      }
+      .text-shadow-red {
+        text-shadow: 0 0 5px #C2185B, 0 0 10px #E91E63;
+      }
+      .bg-blur {
+        backdrop-filter: blur(8px);
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+      }
+      .gold-border {
+        border: 2px solid #FFD700;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .money-animation {
+        position: absolute;
+        font-size: 24px;
+        color: #FFD700;
+        animation: moneyFly 1s ease-in-out forwards;
+      }
+      @keyframes moneyFly {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) rotate(20deg);
+          opacity: 0;
+        }
+      }
+      .number-change {
+        transition: all 0.5s ease;
+      }
+      .number-increase {
+        color: #4CAF50;
+      }
+      .number-decrease {
+        color: #F44336;
+      }
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background-color: #f00;
+        animation: confetti-fall 3s ease-in-out forwards;
+        z-index: 1000;
+      }
+      @keyframes confetti-fall {
+        0% {
+          transform: translateY(-100vh) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <!-- 顶部导航栏 -->
+  <nav class="bg-gradient-to-r from-primary to-secondary text-white shadow-lg fixed top-0 left-0 right-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <img src="">
+        <h1 class="text-xl md:text-2xl font-bold text-shadow">花光这1个亿</h1>
+      </div>
+      <div class="hidden md:flex items-center space-x-4">
+        <button class="nav-btn flex items-center space-x-1 px-3 py-1 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition-all" data-page="home">
+          <i class="fa fa-home"></i>
+          <span>首页</span>
+        </button>
+        <button class="nav-btn flex items-center space-x-1 px-3 py-1 rounded-full hover:bg-white hover:bg-opacity-20 transition-all" data-page="records">
+          <i class="fa fa-history"></i>
+          <span>消费记录</span>
+        </button>
+        <button class="nav-btn flex items-center space-x-1 px-3 py-1 rounded-full hover:bg-white hover:bg-opacity-20 transition-all" data-page="stats">
+          <i class="fa fa-pie-chart"></i>
+          <span>统计分析</span>
+        </button>
+        <button id="reset-btn" class="flex items-center space-x-1 px-3 py-1 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition-all">
+          <i class="fa fa-refresh"></i>
+          <span>重新开始</span>
+        </button>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden text-2xl">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <!-- 移动端菜单 -->
+    <div id="mobile-menu" class="md:hidden hidden bg-primary bg-opacity-95 shadow-lg">
+      <div class="container mx-auto px-4 py-2 flex flex-col space-y-2">
+        <button class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-all" data-page="home">
+          <i class="fa fa-home"></i>
+          <span>首页</span>
+        </button>
+        <button class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-all" data-page="records">
+          <i class="fa fa-history"></i>
+          <span>消费记录</span>
+        </button>
+        <button class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-all" data-page="stats">
+          <i class="fa fa-pie-chart"></i>
+          <span>统计分析</span>
+        </button>
+        <button id="mobile-reset-btn" class="flex items-center space-x-2 px-3 py-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-all">
+          <i class="fa fa-refresh"></i>
+          <span>重新开始</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 金额显示区 -->
+  <div class="fixed top-16 left-0 right-0 bg-white shadow-md z-40">
+    <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
+      <div class="flex items-center space-x-2 mb-2 md:mb-0">
+        <i class="fa fa-money text-primary text-2xl"></i>
+        <div>
+          <p class="text-sm text-gray-500">剩余金额</p>
+          <p id="remaining-money" class="text-2xl font-bold text-dark" style="font-size: 48px;">¥100,000,000.00</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <i class="fa fa-shopping-cart text-secondary text-2xl"></i>
+        <div>
+          <p class="text-sm text-gray-500">已消费</p>
+          <p id="spent-money" class="text-2xl font-bold text-secondary">¥0.00</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主内容区 -->
+  <main class="container mx-auto px-4 pt-36 pb-24">
+    <!-- 首页 -->
+    <section id="home-page" class="page active animate-fade-in">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-dark mb-2">欢迎体验亿万富豪的生活！</h2>
+        <p class="text-gray-600">你有1亿元人民币可以自由支配，尽情享受购物的乐趣吧！</p>
+      </div>
+      
+      <!-- 消费分类 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 房产 -->
+        <div class="category-card bg-white rounded-xl shadow-lg overflow-hidden card-hover cursor-pointer" data-category="real-estate">
+          <div class="relative h-48 overflow-hidden">
+            <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2005413268094058512~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&amp;x-expires=1777108577&amp;x-signature=Rcp%2F6k182gd9STbCsB8qnVeUpsg%3D" alt="房产" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+              <h3 class="text-2xl font-bold text-white p-4 text-shadow">房产</h3>
+            </div>
+          </div>
+          <div class="p-4">
+            <p class="text-gray-600 mb-4">豪华别墅、海景房、城市公寓，打造你的梦想家园</p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">均价: ¥5000万起</span>
+              <button class="category-btn px-4 py-2 bg-primary text-white rounded-full hover:bg-opacity-90 transition-all">
+                开始选购
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 汽车 -->
+        <div class="category-card bg-white rounded-xl shadow-lg overflow-hidden card-hover cursor-pointer" data-category="cars">
+          <div class="relative h-48 overflow-hidden">
+            <img src="https://p3-doubao-search-sign.byteimg.com/labis/40c39a9dc34284dee42379cdfbacd095~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&amp;x-expires=1777108577&amp;x-signature=pGuqEQMPe4aswLKrfsDR5cuFLvo%3D" alt="汽车" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+              <h3 class="text-2xl font-bold text-white p-4 text-shadow">汽车</h3>
+            </div>
+          </div>
+          <div class="p-4">
+            <p class="text-gray-600 mb-4">跑车、豪华轿车、私人飞机，尽享速度与激情</p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">均价: ¥500万起</span>
+              <button class="category-btn px-4 py-2 bg-primary text-white rounded-full hover:bg-opacity-90 transition-all">
+                开始选购
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 奢侈品 -->
+        <div class="category-card bg-white rounded-xl shadow-lg overflow-hidden card-hover cursor-pointer" data-category="luxury">
+          <div class="relative h-48 overflow-hidden">
+            <img src="https://p11-doubao-search-sign.byteimg.com/labis/62c398492456546fd0861386696c94c5~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&amp;x-expires=1777108577&amp;x-signature=0%2BiwQgPI1lPy0WPVdDx9orjTybQ%3D" alt="奢侈品" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+              <h3 class="text-2xl font-bold text-white p-4 text-shadow">奢侈品</h3>
+            </div>
+          </div>
+          <div class="p-4">
+            <p class="text-gray-600 mb-4">名牌包、珠宝首饰、高级手表，彰显你的品味</p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">均价: ¥50万起</span>
+              <button class="category-btn px-4 py-2 bg-primary text-white rounded-full hover:bg-opacity-90 transition-all">
+                开始选购
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 旅游 -->
+        <div class="category-card bg-white rounded-xl shadow-lg overflow-hidden card-hover cursor-pointer" data-category="travel">
+          <div class="relative h-48 overflow-hidden">
+            <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/925448199731544096~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&amp;x-expires=1777108577&amp;x-signature=nmNjvRaWoDATSt%2BLtG%2F11JwjoJo%3D" alt="旅游" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+              <h3 class="text-2xl font-bold text-white p-4 text-shadow">旅游</h3>
+            </div>
+          </div>
+          <div class="p-4">
+            <p class="text-gray-600 mb-4">豪华邮轮、私人岛屿、环球旅行，探索世界美景</p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">均价: ¥100万起</span>
+              <button class="category-btn px-4 py-2 bg-primary text-white rounded-full hover:bg-opacity-90 transition-all">
+                开始选购
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 慈善 -->
+        <div class="category-card bg-white rounded-xl shadow-lg overflow-hidden card-hover cursor-pointer" data-category="charity">
+          <div class="relative h-48 overflow-hidden">
+            <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1804525389883506694~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&amp;x-expires=1777108590&amp;x-signature=OlQEqbbORc1ba5GNVQ7at%2F%2FM3eA%3D" alt="慈善" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+              <h3 class="text-2xl font-bold text-white p-4 text-shadow">慈善</h3>
+            </div>
+          </div>
+          <div class="p-4">
+            <p class="text-gray-600 mb-4">捐赠公益项目、帮助需要的人，传递爱心与温暖</p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">捐赠: ¥10万起</span>
+              <button class="category-btn px-4 py-2 bg-primary text-white rounded-full hover:bg-opacity-90 transition-all">
+                开始捐赠
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 更多 -->
+        <div class="category-card bg-white rounded-xl shadow-lg overflow-hidden card-hover cursor-pointer" data-category="more">
+          <div class="relative h-48 overflow-hidden bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+            <div class="text-center">
+              <i class="fa fa-ellipsis-h text-white text-5xl mb-4"></i>
+              <h3 class="text-2xl font-bold text-white text-shadow">更多</h3>
+            </div>
+          </div>
+          <div class="p-4">
+            <p class="text-gray-600 mb-4">还有更多精彩消费选择等你来探索</p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">惊喜不断</span>
+              <button class="category-btn px-4 py-2 bg-primary text-white rounded-full hover:bg-opacity-90 transition-all">
+                查看更多
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 最近消费 -->
+      <div class="mt-12">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-2xl font-bold text-dark">最近消费</h3>
+          <button id="view-all-records" class="text-primary hover:underline flex items-center">
+            查看全部 <i class="fa fa-angle-right ml-1"></i>
+          </button>
+        </div>
+        <div id="recent-records" class="bg-white rounded-xl shadow-lg p-4">
+          <div class="text-center text-gray-500 py-8" id="no-records-message">
+            <i class="fa fa-shopping-bag text-4xl mb-2"></i>
+            <p>还没有消费记录，开始你的亿万富豪之旅吧！</p>
+          </div>
+          <div id="recent-records-list" class="hidden">
+            <!-- 最近消费记录将在这里动态生成 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 分类页 -->
+    <section id="category-page" class="page hidden animate-fade-in">
+      <div class="flex items-center space-x-2 mb-6">
+        <button id="back-to-home" class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-all">
+          <i class="fa fa-arrow-left"></i>
+        </button>
+        <h2 id="category-title" class="text-2xl font-bold text-dark">分类</h2>
+      </div>
+      
+      <div id="category-description" class="bg-white rounded-xl shadow-md p-4 mb-6">
+        <!-- 分类描述将在这里动态生成 -->
+      </div>
+      
+      <div id="products-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 商品列表将在这里动态生成 -->
+      </div>
+    </section>
+
+    <!-- 商品详情页 -->
+    <section id="product-detail-page" class="page hidden animate-fade-in">
+      <div class="flex items-center space-x-2 mb-6">
+        <button id="back-to-category" class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-all">
+          <i class="fa fa-arrow-left"></i>
+        </button>
+        <h2 id="product-detail-title" class="text-2xl font-bold text-dark">商品详情</h2>
+      </div>
+      
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <div class="relative h-64 md:h-auto">
+            <img id="product-detail-image" src="" alt="商品图片" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 id="product-detail-name" class="text-2xl font-bold text-dark mb-2"></h3>
+            <p id="product-detail-price" class="text-3xl font-bold text-primary mb-4"></p>
+            <p id="product-detail-description" class="text-gray-600 mb-6"></p>
+            
+            <div class="mb-6">
+              <label for="product-quantity" class="block text-gray-700 mb-2">数量</label>
+              <div class="flex items-center">
+                <button id="decrease-quantity" class="p-2 border rounded-l-lg hover:bg-gray-100 transition-all">
+                  <i class="fa fa-minus"></i>
+                </button>
+                <input type="number" id="product-quantity" min="1" value="1" class="w-16 text-center border-t border-b py-2">
+                <button id="increase-quantity" class="p-2 border rounded-r-lg hover:bg-gray-100 transition-all">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-6">
+              <div>
+                <p class="text-gray-500">总价</p>
+                <p id="product-total-price" class="text-2xl font-bold text-secondary"></p>
+              </div>
+              <div id="remaining-money-warning" class="text-danger hidden">
+                <i class="fa fa-exclamation-circle"></i>
+                <span>余额不足</span>
+              </div>
+            </div>
+            
+            <button id="buy-now-btn" class="w-full py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-bold text-lg hover:opacity-90 transition-all flex items-center justify-center">
+              <i class="fa fa-shopping-cart mr-2"></i>
+              立即购买
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 消费记录页 -->
+    <section id="records-page" class="page hidden animate-fade-in">
+      <h2 class="text-2xl font-bold text-dark mb-6">消费记录</h2>
+      
+      <div class="bg-white rounded-xl shadow-lg p-4">
+        <div class="flex justify-between items-center mb-4">
+          <div class="flex items-center space-x-2">
+            <span class="text-gray-600">排序:</span>
+            <select id="records-sort" class="border rounded-lg px-3 py-1">
+              <option value="date-desc">最新优先</option>
+              <option value="date-asc">最早优先</option>
+              <option value="price-desc">金额从高到低</option>
+              <option value="price-asc">金额从低到高</option>
+            </select>
+          </div>
+          <div class="relative">
+            <input type="text" id="records-search" placeholder="搜索商品..." class="border rounded-lg pl-10 pr-3 py-1 w-64">
+            <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          </div>
+        </div>
+        
+        <div id="no-records-on-records-page" class="text-center text-gray-500 py-12">
+          <i class="fa fa-shopping-bag text-5xl mb-3"></i>
+          <p class="text-xl">还没有消费记录</p>
+          <p class="text-gray-500">去首页开始你的亿万富豪之旅吧！</p>
+          <button id="go-to-home-from-records" class="mt-4 px-6 py-2 bg-primary text-white rounded-full hover:bg-opacity-90 transition-all">
+            去首页
+          </button>
+        </div>
+        
+        <div id="records-list" class="hidden">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b">
+                <th class="text-left py-3 px-4">商品</th>
+                <th class="text-left py-3 px-4">分类</th>
+                <th class="text-left py-3 px-4">单价</th>
+                <th class="text-left py-3 px-4">数量</th>
+                <th class="text-left py-3 px-4">总价</th>
+                <th class="text-left py-3 px-4">时间</th>
+              </tr>
+            </thead>
+            <tbody id="records-table-body">
+              <!-- 消费记录将在这里动态生成 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 统计页 -->
+    <section id="stats-page" class="page hidden animate-fade-in">
+      <h2 class="text-2xl font-bold text-dark mb-6">消费统计</h2>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-12 h-12 rounded-full bg-primary bg-opacity-20 flex items-center justify-center">
+              <i class="fa fa-money text-primary text-xl"></i>
+            </div>
+            <div>
+              <p class="text-gray-500">初始金额</p>
+              <p class="text-2xl font-bold text-dark">¥100,000,000.00</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-12 h-12 rounded-full bg-secondary bg-opacity-20 flex items-center justify-center">
+              <i class="fa fa-shopping-cart text-secondary text-xl"></i>
+            </div>
+            <div>
+              <p class="text-gray-500">已消费</p>
+              <p id="stats-spent-money" class="text-2xl font-bold text-secondary">¥0.00</p>
+            </div>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div id="spent-progress-bar" class="bg-secondary h-2.5 rounded-full" style="width: 0%"></div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-500 mt-1">
+            <span>0%</span>
+            <span id="spent-percentage">0%</span>
+            <span>100%</span>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-12 h-12 rounded-full bg-success bg-opacity-20 flex items-center justify-center">
+              <i class="fa fa-balance-scale text-success text-xl"></i>
+            </div>
+            <div>
+              <p class="text-gray-500">剩余金额</p>
+              <p id="stats-remaining-money" class="text-2xl font-bold text-success">¥100,000,000.00</p>
+            </div>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div id="remaining-progress-bar" class="bg-success h-2.5 rounded-full" style="width: 100%"></div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-500 mt-1">
+            <span>0%</span>
+            <span id="remaining-percentage">100%</span>
+            <span>100%</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-dark mb-4">消费分类占比</h3>
+          <div class="h-80">
+            <canvas id="category-chart"></canvas>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-dark mb-4">消费趋势</h3>
+          <div class="h-80">
+            <canvas id="trend-chart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-6 bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-xl font-bold text-dark mb-4">消费排行</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b">
+                <th class="text-left py-3 px-4">排名</th>
+                <th class="text-left py-3 px-4">商品</th>
+                <th class="text-left py-3 px-4">分类</th>
+                <th class="text-left py-3 px-4">消费金额</th>
+                <th class="text-left py-3 px-4">购买次数</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-table-body">
+              <!-- 消费排行将在这里动态生成 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 底部导航栏（移动端） -->
+  <footer class="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg z-40">
+    <div class="flex justify-around">
+      <button class="mobile-nav-btn flex flex-col items-center py-3 px-4 text-primary" data-page="home">
+        <i class="fa fa-home text-xl"></i>
+        <span class="text-xs mt-1">首页</span>
+      </button>
+      <button class="mobile-nav-btn flex flex-col items-center py-3 px-4 text-gray-500" data-page="records">
+        <i class="fa fa-history text-xl"></i>
+        <span class="text-xs mt-1">记录</span>
+      </button>
+      <button class="mobile-nav-btn flex flex-col items-center py-3 px-4 text-gray-500" data-page="stats">
+        <i class="fa fa-pie-chart text-xl"></i>
+        <span class="text-xs mt-1">统计</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- 购买成功弹窗 -->
+  <div id="purchase-success-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+    <div class="absolute inset-0 bg-black bg-opacity-50" id="modal-overlay"></div>
+    <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md relative z-10 animate-zoom-in">
+      <div class="text-center">
+        <div class="w-20 h-20 rounded-full bg-success bg-opacity-20 flex items-center justify-center mx-auto mb-4">
+          <i class="fa fa-check text-success text-4xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-dark mb-2">购买成功！</h3>
+        <p id="purchase-success-message" class="text-gray-600 mb-6"></p>
+        <div class="flex space-x-4">
+          <button id="continue-shopping-btn" class="flex-1 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all">
+            继续购物
+          </button>
+          <button id="view-records-btn" class="flex-1 py-2 border border-primary text-primary rounded-lg hover:bg-primary hover:bg-opacity-10 transition-all">
+            查看记录
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 重置确认弹窗 -->
+  <div id="reset-confirm-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+    <div class="absolute inset-0 bg-black bg-opacity-50" id="reset-modal-overlay"></div>
+    <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md relative z-10 animate-zoom-in">
+      <div class="text-center">
+        <div class="w-20 h-20 rounded-full bg-warning bg-opacity-20 flex items-center justify-center mx-auto mb-4">
+          <i class="fa fa-exclamation-triangle text-warning text-4xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-dark mb-2">确认重置？</h3>
+        <p class="text-gray-600 mb-6">重置后所有消费记录将被清除，金额将恢复为1亿元。</p>
+        <div class="flex space-x-4">
+          <button id="cancel-reset-btn" class="flex-1 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-all">
+            取消
+          </button>
+          <button id="confirm-reset-btn" class="flex-1 py-2 bg-danger text-white rounded-lg hover:bg-opacity-90 transition-all">
+            确认重置
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 数据模型
+    const appData = {
+      totalMoney: 100000000, // 初始金额1亿元
+      remainingMoney: 100000000,
+      spentMoney: 0,
+      currentCategory: null,
+      currentProduct: null,
+      products: {
+        // 房产
+        'real-estate': [
+          {
+            id: 're1',
+            name: '海景豪华别墅',
+            price: 88000000,
+            description: '位于黄金海岸的豪华别墅，拥有私人海滩、游泳池和花园，总面积1000平方米。',
+            image: 'https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2005413268094058512~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=Rcp%2F6k182gd9STbCsB8qnVeUpsg%3D',
+            category: 'real-estate',
+            categoryName: '房产'
+          },
+          {
+            id: 're2',
+            name: '城市中心公寓',
+            price: 52000000,
+            description: '位于城市CBD的豪华公寓，360度全景落地窗，24小时安保服务，总面积300平方米。',
+            image: 'https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/919436284904996929~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=UTwrOv%2FWzQTdx5q8LOQWFbGQw4s%3D',
+            category: 'real-estate',
+            categoryName: '房产'
+          },
+          {
+            id: 're3',
+            name: '郊区庄园',
+            price: 35000000,
+            description: '位于郊区的大型庄园，拥有私人湖泊、马厩和高尔夫球场，总面积5000平方米。',
+            image: 'https://p3-doubao-search-sign.byteimg.com/labis/4e24b4696d468dcc55b005cbd782457a~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=hWYPd2kMPf9hIq4h0KpGA1ShAEk%3D',
+            category: 'real-estate',
+            categoryName: '房产'
+          }
+        ],
+        // 汽车
+        'cars': [
+          {
+            id: 'car1',
+            name: '兰博基尼Aventador',
+            price: 7500000,
+            description: '兰博基尼旗舰超跑，6.5升V12发动机，最高时速350km/h，百公里加速2.8秒。',
+            image: 'https://p3-doubao-search-sign.byteimg.com/labis/40c39a9dc34284dee42379cdfbacd095~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=pGuqEQMPe4aswLKrfsDR5cuFLvo%3D',
+            category: 'cars',
+            categoryName: '汽车'
+          },
+          {
+            id: 'car2',
+            name: '迈巴赫S680',
+            price: 3800000,
+            description: '豪华轿车的巅峰之作，V12发动机，极致舒适的内饰，配备最新科技和安全系统。',
+            image: 'https://p3-doubao-search-sign.byteimg.com/labis/9ab52e72ca8bfcebb48a5e33ec0f645e~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=8vGyl4WnFOBT9o2a1exhhQOnmNg%3D',
+            category: 'cars',
+            categoryName: '汽车'
+          },
+          {
+            id: 'car3',
+            name: '私人飞机',
+            price: 58000000,
+            description: '湾流G650私人飞机，可容纳18名乘客，航程13000公里，配备豪华内饰和先进通讯系统。',
+            image: 'https://p11-doubao-search-sign.byteimg.com/labis/dada33fa8417b51445998f2c04299b9d~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=eMbLmPJskDIbwaFnwXHCmJmuYvc%3D',
+            category: 'cars',
+            categoryName: '汽车'
+          }
+        ],
+        // 奢侈品
+        'luxury': [
+          {
+            id: 'lux1',
+            name: '爱马仕Birkin 30',
+            price: 680000,
+            description: '爱马仕经典Birkin包，30厘米尺寸，稀有皮革材质，手工制作，限量版。',
+            image: 'https://p11-doubao-search-sign.byteimg.com/labis/62c398492456546fd0861386696c94c5~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=0%2BiwQgPI1lPy0WPVdDx9orjTybQ%3D',
+            category: 'luxury',
+            categoryName: '奢侈品'
+          },
+          {
+            id: 'lux2',
+            name: '百达翡丽Nautilus',
+            price: 1200000,
+            description: '百达翡丽经典运动腕表，18K玫瑰金表壳，自动上链机芯，防水120米。',
+            image: 'https://p11-doubao-search-sign.byteimg.com/labis/f2a36f646e97d13ce95d5dbdc66f2ead~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=XiMeCSRFTCQye9%2Bgte3WlqWmq00%3D',
+            category: 'luxury',
+            categoryName: '奢侈品'
+          },
+          {
+            id: 'lux3',
+            name: '卡地亚高级珠宝套装',
+            price: 3500000,
+            description: '卡地亚高级珠宝套装，包含项链、耳环和手镯，镶嵌钻石和蓝宝石，总重量超过50克拉。',
+            image: 'https://p11-doubao-search-sign.byteimg.com/labis/6a78afe2bab9e9de39a1c06da14b57a3~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=oBsoHL%2Fhlnlx3KoM%2B7FGJ56OhYA%3D',
+            category: 'luxury',
+            categoryName: '奢侈品'
+          }
+        ],
+        // 旅游
+        'travel': [
+          {
+            id: 'tra1',
+            name: '环球豪华邮轮之旅',
+            price: 2800000,
+            description: '为期3个月的环球邮轮之旅，乘坐世界顶级豪华邮轮，访问20个国家和地区，全程VIP服务。',
+            image: 'https://p3-doubao-search-sign.byteimg.com/pgc-image/222ce4a101c748598e562a2bd757290a~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=Z6nsnGVO22vxKf86CzPmQT3rJCU%3D',
+            category: 'travel',
+            categoryName: '旅游'
+          },
+          {
+            id: 'tra2',
+            name: '马尔代夫私人岛屿度假',
+            price: 1500000,
+            description: '在马尔代夫私人岛屿度过一个月的奢华假期，包含私人别墅、专属管家和私人游艇服务。',
+            image: 'https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/925448199731544096~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=nmNjvRaWoDATSt%2BLtG%2F11JwjoJo%3D',
+            category: 'travel',
+            categoryName: '旅游'
+          },
+          {
+            id: 'tra3',
+            name: '太空旅行体验',
+            price: 28000000,
+            description: '维珍银河太空旅行体验，包含太空训练和亚轨道飞行，体验失重和太空美景。',
+            image: 'https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1854426183934410762~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108577&x-signature=Tck5vCSfVxqg7dkem1SSAEDrVDo%3D',
+            category: 'travel',
+            categoryName: '旅游'
+          }
+        ],
+        // 慈善
+        'charity': [
+          {
+            id: 'cha1',
+            name: '希望小学建设',
+            price: 5000000,
+            description: '捐赠建设一所希望小学，包含教学楼、图书馆和操场，帮助贫困地区儿童获得教育机会。',
+            image: 'https://p3-doubao-search-sign.byteimg.com/tos-cn-i-6w9my0ksvp/b901f65d239d40898cca4c08bae7d023~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108590&x-signature=%2F4uib6MtAjc92lqJSaND67gzKws%3D',
+            category: 'charity',
+            categoryName: '慈善'
+          },
+          {
+            id: 'cha2',
+            name: '医疗救助基金',
+            price: 3000000,
+            description: '捐赠设立医疗救助基金，帮助贫困家庭支付医疗费用，提供必要的医疗设备和药品。',
+            image: 'https://p11-doubao-search-sign.byteimg.com/labis/5463ce9bcbdfc0685e7eddb62b5aee21~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108590&x-signature=vtJy6SLJL5aEHotqtWFOboBwFUI%3D',
+            category: 'charity',
+            categoryName: '慈善'
+          },
+          {
+            id: 'cha3',
+            name: '环境保护项目',
+            price: 10000000,
+            description: '捐赠支持环境保护项目，包括森林恢复、海洋清洁和可再生能源开发，保护地球生态环境。',
+            image: 'https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1803633204866449425~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108590&x-signature=s2pkeJ9hgSMFhyRIf6pyCfsyDrM%3D',
+            category: 'charity',
+            categoryName: '慈善'
+          }
+        ],
+        // 更多
+        'more': [
+          {
+            id: 'mor1',
+            name: '比特币投资',
+            price: 10000000,
+            description: '购买10个比特币，作为数字资产投资，享受加密货币市场的潜在收益。',
+            image: 'https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1958637749987049495~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108590&x-signature=4lTbTRhp13i%2FphCh6EdQT3e2R2U%3D',
+            category: 'more',
+            categoryName: '更多'
+          },
+          {
+            id: 'mor2',
+            name: '艺术品收藏',
+            price: 15000000,
+            description: '购买一幅梵高的《向日葵》真迹，作为艺术品收藏，具有极高的艺术价值和升值潜力。',
+            image: 'https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1969266677333360652~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108590&x-signature=ef04hImeDeZZ2Are6swMZhOgm6o%3D',
+            category: 'more',
+            categoryName: '更多'
+          },
+          {
+            id: 'mor3',
+            name: '公司收购',
+            price: 50000000,
+            description: '收购一家科技创新公司，获得其专利技术和市场份额，拓展商业版图。',
+            image: 'https://p3-doubao-search-sign.byteimg.com/tos-cn-i-6w9my0ksvp/4b9effa719144239871b4a84680ea412~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777108590&x-signature=ZiAOhypqE7ESlsq5D3lPW29mZ3I%3D',
+            category: 'more',
+            categoryName: '更多'
+          }
+        ]
+      },
+      records: [],
+      categoryNames: {
+        'real-estate': '房产',
+        'cars': '汽车',
+        'luxury': '奢侈品',
+        'travel': '旅游',
+        'charity': '慈善',
+        'more': '更多'
+      },
+      categoryDescriptions: {
+        'real-estate': '豪华别墅、海景房、城市公寓，打造你的梦想家园。从城市中心到海滨度假，选择你心仪的住所。',
+        'cars': '跑车、豪华轿车、私人飞机，尽享速度与激情。无论是日常出行还是环球旅行，都能满足你的需求。',
+        'luxury': '名牌包、珠宝首饰、高级手表，彰显你的品味。精选全球顶级奢侈品牌，让你成为众人焦点。',
+        'travel': '豪华邮轮、私人岛屿、环球旅行，探索世界美景。从热带天堂到极地探险，体验不一样的人生。',
+        'charity': '捐赠公益项目、帮助需要的人，传递爱心与温暖。你的善举可以改变无数人的生活。',
+        'more': '更多精彩消费选择等你来探索。从数字资产到艺术品收藏，满足你的各种需求。'
+      }
+    };
+
+    // DOM元素
+    const elements = {
+      // 页面
+      pages: document.querySelectorAll('.page'),
+      homePage: document.getElementById('home-page'),
+      categoryPage: document.getElementById('category-page'),
+      productDetailPage: document.getElementById('product-detail-page'),
+      recordsPage: document.getElementById('records-page'),
+      statsPage: document.getElementById('stats-page'),
+      
+      // 导航
+      navBtns: document.querySelectorAll('.nav-btn'),
+      mobileNavBtns: document.querySelectorAll('.mobile-nav-btn'),
+      mobileMenuBtn: document.getElementById('mobile-menu-btn'),
+      mobileMenu: document.getElementById('mobile-menu'),
+      
+      // 金额显示
+      remainingMoney: document.getElementById('remaining-money'),
+      spentMoney: document.getElementById('spent-money'),
+      
+      // 首页
+      categoryCards: document.querySelectorAll('.category-card'),
+      categoryBtns: document.querySelectorAll('.category-btn'),
+      recentRecords: document.getElementById('recent-records'),
+      noRecordsMessage: document.getElementById('no-records-message'),
+      recentRecordsList: document.getElementById('recent-records-list'),
+      viewAllRecords: document.getElementById('view-all-records'),
+      
+      // 分类页
+      backToHome: document.getElementById('back-to-home'),
+      categoryTitle: document.getElementById('category-title'),
+      categoryDescription: document.getElementById('category-description'),
+      productsList: document.getElementById('products-list'),
+      
+      // 商品详情页
+      backToCategory: document.getElementById('back-to-category'),
+      productDetailTitle: document.getElementById('product-detail-title'),
+      productDetailImage: document.getElementById('product-detail-image'),
+      productDetailName: document.getElementById('product-detail-name'),
+      productDetailPrice: document.getElementById('product-detail-price'),
+      productDetailDescription: document.getElementById('product-detail-description'),
+      decreaseQuantity: document.getElementById('decrease-quantity'),
+      increaseQuantity: document.getElementById('increase-quantity'),
+      productQuantity: document.getElementById('product-quantity'),
+      productTotalPrice: document.getElementById('product-total-price'),
+      remainingMoneyWarning: document.getElementById('remaining-money-warning'),
+      buyNowBtn: document.getElementById('buy-now-btn'),
+      
+      // 消费记录页
+      recordsSort: document.getElementById('records-sort'),
+      recordsSearch: document.getElementById('records-search'),
+      noRecordsOnRecordsPage: document.getElementById('no-records-on-records-page'),
+      recordsList: document.getElementById('records-list'),
+      recordsTableBody: document.getElementById('records-table-body'),
+      goToHomeFromRecords: document.getElementById('go-to-home-from-records'),
+      
+      // 统计页
+      statsSpentMoney: document.getElementById('stats-spent-money'),
+      statsRemainingMoney: document.getElementById('stats-remaining-money'),
+      spentProgressBar: document.getElementById('spent-progress-bar'),
+      remainingProgressBar: document.getElementById('remaining-progress-bar'),
+      spentPercentage: document.getElementById('spent-percentage'),
+      remainingPercentage: document.getElementById('remaining-percentage'),
+      rankingTableBody: document.getElementById('ranking-table-body'),
+      
+      // 弹窗
+      purchaseSuccessModal: document.getElementById('purchase-success-modal'),
+      modalOverlay: document.getElementById('modal-overlay'),
+      purchaseSuccessMessage: document.getElementById('purchase-success-message'),
+      continueShoppingBtn: document.getElementById('continue-shopping-btn'),
+      viewRecordsBtn: document.getElementById('view-records-btn'),
+      
+      resetBtn: document.getElementById('reset-btn'),
+      mobileResetBtn: document.getElementById('mobile-reset-btn'),
+      resetConfirmModal: document.getElementById('reset-confirm-modal'),
+      resetModalOverlay: document.getElementById('reset-modal-overlay'),
+      cancelResetBtn: document.getElementById('cancel-reset-btn'),
+      confirmResetBtn: document.getElementById('confirm-reset-btn')
+    };
+
+    // 工具函数
+    const utils = {
+      // 格式化金额
+      formatCurrency: function(amount) {
+        return new Intl.NumberFormat('zh-CN', {
+          style: 'currency',
+          currency: 'CNY',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }).format(amount);
+      },
+      
+      // 切换页面
+      showPage: function(pageId) {
+        elements.pages.forEach(page => {
+          page.classList.add('hidden');
+          page.classList.remove('active');
+        });
+        
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+          targetPage.classList.remove('hidden');
+          targetPage.classList.add('active');
+          
+          // 更新导航按钮状态
+          elements.navBtns.forEach(btn => {
+            if (btn.dataset.page === pageId.replace('-page', '')) {
+              btn.classList.add('bg-white', 'bg-opacity-20');
+            } else {
+              btn.classList.remove('bg-white', 'bg-opacity-20');
+            }
+          });
+          
+          // 更新移动端导航按钮状态
+          elements.mobileNavBtns.forEach(btn => {
+            if (btn.dataset.page === pageId.replace('-page', '')) {
+              btn.classList.add('text-primary');
+              btn.classList.remove('text-gray-500');
+            } else {
+              btn.classList.remove('text-primary');
+              btn.classList.add('text-gray-500');
+            }
+          });
+          
+          // 关闭移动端菜单
+          elements.mobileMenu.classList.add('hidden');
+        }
+      },
+      
+      // 更新金额显示
+      updateMoneyDisplay: function() {
+        elements.remainingMoney.textContent = this.formatCurrency(appData.remainingMoney);
+        elements.spentMoney.textContent = this.formatCurrency(appData.spentMoney);
+        
+        // 统计页金额显示
+        elements.statsSpentMoney.textContent = this.formatCurrency(appData.spentMoney);
+        elements.statsRemainingMoney.textContent = this.formatCurrency(appData.remainingMoney);
+        
+        // 更新进度条
+        const spentPercentage = (appData.spentMoney / appData.totalMoney) * 100;
+        const remainingPercentage = 100 - spentPercentage;
+        
+        elements.spentProgressBar.style.width = `${spentPercentage}%`;
+        elements.remainingProgressBar.style.width = `${remainingPercentage}%`;
+        
+        elements.spentPercentage.textContent = `${spentPercentage.toFixed(1)}%`;
+        elements.remainingPercentage.textContent = `${remainingPercentage.toFixed(1)}%`;
+      },
+      
+      // 生成商品列表
+      generateProductList: function(category) {
+        const products = appData.products[category];
+        if (!products) return;
+        
+        elements.productsList.innerHTML = '';
+        
+        products.forEach(product => {
+          const productCard = document.createElement('div');
+          productCard.className = 'bg-white rounded-xl shadow-lg overflow-hidden card-hover cursor-pointer';
+          productCard.dataset.productId = product.id;
+          
+          productCard.innerHTML = `
+            <div class="relative h-48 overflow-hidden">
+              <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            </div>
+            <div class="p-4">
+              <h3 class="text-lg font-bold text-dark mb-2">${product.name}</h3>
+              <p class="text-primary font-bold mb-4">${this.formatCurrency(product.price)}</p>
+              <p class="text-gray-600 text-sm mb-4 line-clamp-2">${product.description}</p>
+              <button class="view-product-btn w-full py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all">
+                查看详情
+              </button>
+            </div>
+          `;
+          
+          elements.productsList.appendChild(productCard);
+          
+          // 添加点击事件
+          productCard.addEventListener('click', () => {
+            this.showProductDetail(product.id);
+          });
+        });
+      },
+      
+      // 显示商品详情
+      showProductDetail: function(productId) {
+        // 查找商品
+        let product = null;
+        for (const category in appData.products) {
+          const found = appData.products[category].find(p => p.id === productId);
+          if (found) {
+            product = found;
+            break;
+          }
+        }
+        
+        if (!product) return;
+        
+        appData.currentProduct = product;
+        
+        // 更新商品详情
+        elements.productDetailTitle.textContent = product.categoryName;
+        elements.productDetailImage.src = product.image;
+        elements.productDetailImage.alt = product.name;
+        elements.productDetailName.textContent = product.name;
+        elements.productDetailPrice.textContent = this.formatCurrency(product.price);
+        elements.productDetailDescription.textContent = product.description;
+        
+        // 重置数量
+        elements.productQuantity.value = 1;
+        this.updateTotalPrice();
+        
+        // 显示商品详情页
+        this.showPage('product-detail-page');
+      },
+      
+      // 更新总价
+      updateTotalPrice: function() {
+        const quantity = parseInt(elements.productQuantity.value) || 1;
+        const price = appData.currentProduct.price;
+        const totalPrice = price * quantity;
+        
+        elements.productTotalPrice.textContent = this.formatCurrency(totalPrice);
+        
+        // 检查余额是否充足
+        if (totalPrice > appData.remainingMoney) {
+          elements.remainingMoneyWarning.classList.remove('hidden');
+          elements.buyNowBtn.disabled = true;
+          elements.buyNowBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+          elements.remainingMoneyWarning.classList.add('hidden');
+          elements.buyNowBtn.disabled = false;
+          elements.buyNowBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+      },
+      
+      // 添加消费记录
+      addRecord: function(product, quantity) {
+        const totalPrice = product.price * quantity;
+        
+        const record = {
+          id: Date.now(),
+          productId: product.id,
+          productName: product.name,
+          category: product.category,
+          categoryName: product.categoryName,
+          price: product.price,
+          quantity: quantity,
+          totalPrice: totalPrice,
+          timestamp: new Date().toISOString()
+        };
+        
+        appData.records.unshift(record); // 添加到开头
+        
+        // 更新金额
+        appData.spentMoney += totalPrice;
+        appData.remainingMoney -= totalPrice;
+        
+        // 更新显示
+        this.updateMoneyDisplay();
+        this.updateRecordsList();
+        this.updateRecentRecords();
+        this.updateStats();
+        
+        // 保存到本地存储
+        this.saveData();
+        
+        return record;
+      },
+      
+      // 更新消费记录列表
+      updateRecordsList: function() {
+        if (appData.records.length === 0) {
+          elements.noRecordsOnRecordsPage.classList.remove('hidden');
+          elements.recordsList.classList.add('hidden');
+          return;
+        }
+        
+        elements.noRecordsOnRecordsPage.classList.add('hidden');
+        elements.recordsList.classList.remove('hidden');
+        
+        // 获取排序方式和搜索关键词
+        const sortBy = elements.recordsSort.value;
+        const searchKeyword = elements.recordsSearch.value.toLowerCase();
+        
+        // 过滤和排序记录
+        let filteredRecords = [...appData.records];
+        
+        if (searchKeyword) {
+          filteredRecords = filteredRecords.filter(record => 
+            record.productName.toLowerCase().includes(searchKeyword) || 
+            record.categoryName.toLowerCase().includes(searchKeyword)
+          );
+        }
+        
+        switch (sortBy) {
+          case 'date-desc':
+            filteredRecords.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            break;
+          case 'date-asc':
+            filteredRecords.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+            break;
+          case 'price-desc':
+            filteredRecords.sort((a, b) => b.totalPrice - a.totalPrice);
+            break;
+          case 'price-asc':
+            filteredRecords.sort((a, b) => a.totalPrice - b.totalPrice);
+            break;
+        }
+        
+        // 更新表格
+        elements.recordsTableBody.innerHTML = '';
+        
+        filteredRecords.forEach(record => {
+          const row = document.createElement('tr');
+          row.className = 'border-b hover:bg-gray-50';
+          
+          const date = new Date(record.timestamp);
+          const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+          
+          row.innerHTML = `
+            <td class="py-3 px-4">${record.productName}</td>
+            <td class="py-3 px-4">${record.categoryName}</td>
+            <td class="py-3 px-4">${this.formatCurrency(record.price)}</td>
+            <td class="py-3 px-4">${record.quantity}</td>
+            <td class="py-3 px-4 font-bold text-secondary">${this.formatCurrency(record.totalPrice)}</td>
+            <td class="py-3 px-4">${formattedDate}</td>
+          `;
+          
+          elements.recordsTableBody.appendChild(row);
+        });
+      },
+      
+      // 更新最近消费记录
+      updateRecentRecords: function() {
+        if (appData.records.length === 0) {
+          elements.noRecordsMessage.classList.remove('hidden');
+          elements.recentRecordsList.classList.add('hidden');
+          return;
+        }
+        
+        elements.noRecordsMessage.classList.add('hidden');
+        elements.recentRecordsList.classList.remove('hidden');
+        
+        // 显示最近3条记录
+        const recentRecords = appData.records.slice(0, 3);
+        
+        elements.recentRecordsList.innerHTML = '';
+        
+        recentRecords.forEach(record => {
+          const date = new Date(record.timestamp);
+          const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+          
+          const recordItem = document.createElement('div');
+          recordItem.className = 'flex justify-between items-center py-3 border-b';
+          
+          recordItem.innerHTML = `
+            <div>
+              <p class="font-bold text-dark">${record.productName}</p>
+              <p class="text-sm text-gray-500">${record.categoryName} · ${formattedDate}</p>
+            </div>
+            <div class="text-right">
+              <p class="font-bold text-secondary">${this.formatCurrency(record.totalPrice)}</p>
+              <p class="text-sm text-gray-500">x${record.quantity}</p>
+            </div>
+          `;
+          
+          elements.recentRecordsList.appendChild(recordItem);
+        });
+      },
+      
+      // 更新统计数据
+      updateStats: function() {
+        this.updateCharts();
+        this.updateRanking();
+      },
+      
+      // 更新图表
+      updateCharts: function() {
+        // 分类消费统计
+        const categoryData = {};
+        
+        appData.records.forEach(record => {
+          if (!categoryData[record.categoryName]) {
+            categoryData[record.categoryName] = 0;
+          }
+          categoryData[record.categoryName] += record.totalPrice;
+        });
+        
+        const categoryLabels = Object.keys(categoryData);
+        const categoryValues = Object.values(categoryData);
+        
+        // 颜色配置
+        const backgroundColors = [
+          '#FFD700', // 金色
+          '#C2185B', // 玫红色
+          '#FF5722', // 橙色
+          '#1A237E', // 深蓝色
+          '#4CAF50', // 绿色
+          '#2196F3'  // 蓝色
+        ];
+        
+        // 销毁旧图表
+        if (window.categoryChart) {
+          window.categoryChart.destroy();
+        }
+        
+        // 创建新图表
+        const categoryCtx = document.getElementById('category-chart').getContext('2d');
+        window.categoryChart = new Chart(categoryCtx, {
+          type: 'pie',
+          data: {
+            labels: categoryLabels,
+            datasets: [{
+              data: categoryValues,
+              backgroundColor: backgroundColors.slice(0, categoryLabels.length),
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'right',
+                labels: {
+                  font: {
+                    size: 12
+                  }
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const label = context.label || '';
+                    const value = context.raw || 0;
+                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                    const percentage = Math.round((value / total) * 100);
+                    return `${label}: ${utils.formatCurrency(value)} (${percentage}%)`;
+                  }
+                }
+              }
+            }
+          }
+        });
+        
+        // 消费趋势图
+        // 按日期分组
+        const dailyData = {};
+        
+        appData.records.forEach(record => {
+          const date = new Date(record.timestamp).toISOString().split('T')[0];
+          if (!dailyData[date]) {
+            dailyData[date] = 0;
+          }
+          dailyData[date] += record.totalPrice;
+        });
+        
+        // 排序日期
+        const sortedDates = Object.keys(dailyData).sort();
+        const dailyValues = sortedDates.map(date => dailyData[date]);
+        
+        // 销毁旧图表
+        if (window.trendChart) {
+          window.trendChart.destroy();
+        }
+        
+        // 创建新图表
+        const trendCtx = document.getElementById('trend-chart').getContext('2d');
+        window.trendChart = new Chart(trendCtx, {
+          type: 'bar',
+          data: {
+            labels: sortedDates,
+            datasets: [{
+              label: '每日消费金额',
+              data: dailyValues,
+              backgroundColor: '#C2185B',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: function(value) {
+                    if (value >= 10000000) {
+                      return (value / 10000000).toFixed(1) + '千万';
+                    } else if (value >= 10000) {
+                      return (value / 10000).toFixed(1) + '万';
+                    }
+                    return value;
+                  }
+                }
+              }
+            },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const value = context.raw || 0;
+                    return `消费金额: ${utils.formatCurrency(value)}`;
+                  }
+                }
+              }
+            }
+          }
+        });
+      },
+      
+      // 更新消费排行
+      updateRanking: function() {
+        // 按商品分组统计
+        const productData = {};
+        
+        appData.records.forEach(record => {
+          if (!productData[record.productId]) {
+            productData[record.productId] = {
+              name: record.productName,
+              category: record.categoryName,
+              totalSpent: 0,
+              count: 0
+            };
+          }
+          productData[record.productId].totalSpent += record.totalPrice;
+          productData[record.productId].count += record.quantity;
+        });
+        
+        // 转换为数组并排序
+        const productArray = Object.values(productData);
+        productArray.sort((a, b) => b.totalSpent - a.totalSpent);
+        
+        // 更新表格
+        elements.rankingTableBody.innerHTML = '';
+        
+        productArray.forEach((product, index) => {
+          const row = document.createElement('tr');
+          row.className = 'border-b hover:bg-gray-50';
+          
+          // 排名样式
+          let rankStyle = '';
+          if (index === 0) {
+            rankStyle = 'text-yellow-500'; // 金色
+          } else if (index === 1) {
+            rankStyle = 'text-gray-400'; // 银色
+          } else if (index === 2) {
+            rankStyle = 'text-amber-700'; // 铜色
+          }
+          
+          row.innerHTML = `
+            <td class="py-3 px-4 font-bold ${rankStyle}">${index + 1}</td>
+            <td class="py-3 px-4">${product.name}</td>
+            <td class="py-3 px-4">${product.category}</td>
+            <td class="py-3 px-4 font-bold text-secondary">${this.formatCurrency(product.totalSpent)}</td>
+            <td class="py-3 px-4">${product.count}</td>
+          `;
+          
+          elements.rankingTableBody.appendChild(row);
+        });
+      },
+      
+      // 显示购买成功弹窗
+      showPurchaseSuccessModal: function(record) {
+        elements.purchaseSuccessMessage.textContent = `你成功购买了${record.quantity}件${record.productName}，共花费${this.formatCurrency(record.totalPrice)}。`;
+        elements.purchaseSuccessModal.classList.remove('hidden');
+        
+        // 添加金钱飞散动画
+        this.createMoneyAnimation();
+        
+        // 添加庆祝效果
+        this.createConfetti();
+      },
+      
+      // 创建金钱飞散动画
+      createMoneyAnimation: function() {
+        const container = document.body;
+        const moneyCount = 20;
+        
+        for (let i = 0; i < moneyCount; i++) {
+          const money = document.createElement('div');
+          money.className = 'money-animation';
+          money.innerHTML = '<i class="fa fa-money"></i>';
+          
+          // 随机位置
+          const randomX = Math.random() * window.innerWidth;
+          const randomY = Math.random() * window.innerHeight / 2;
+          
+          money.style.left = `${randomX}px`;
+          money.style.top = `${randomY}px`;
+          
+          // 随机大小
+          const randomSize = 16 + Math.random() * 16;
+          money.style.fontSize = `${randomSize}px`;
+          
+          // 随机动画延迟
+          money.style.animationDelay = `${Math.random() * 0.5}s`;
+          
+          container.appendChild(money);
+          
+          // 动画结束后移除元素
+          setTimeout(() => {
+            money.remove();
+          }, 1000);
+        }
+      },
+      
+      // 创建庆祝效果
+      createConfetti: function() {
+        const container = document.body;
+        const confettiCount = 100;
+        
+        for (let i = 0; i < confettiCount; i++) {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          
+          // 随机颜色
+          const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          
+          // 随机位置
+          const randomX = Math.random() * window.innerWidth;
+          confetti.style.left = `${randomX}px`;
+          
+          // 随机大小
+          const randomSize = 5 + Math.random() * 10;
+          confetti.style.width = `${randomSize}px`;
+          confetti.style.height = `${randomSize}px`;
+          
+          // 随机动画延迟和持续时间
+          const randomDelay = Math.random() * 3;
+          const randomDuration = 3 + Math.random() * 2;
+          
+          confetti.style.animationDelay = `${randomDelay}s`;
+          confetti.style.animationDuration = `${randomDuration}s`;
+          
+          container.appendChild(confetti);
+          
+          // 动画结束后移除元素
+          setTimeout(() => {
+            confetti.remove();
+          }, (randomDelay + randomDuration) * 1000);
+        }
+      },
+      
+      // 保存数据到本地存储
+      saveData: function() {
+        const dataToSave = {
+          remainingMoney: appData.remainingMoney,
+          spentMoney: appData.spentMoney,
+          records: appData.records
+        };
+        
+        localStorage.setItem('spend100millionData', JSON.stringify(dataToSave));
+      },
+      
+      // 从本地存储加载数据
+      loadData: function() {
+        const savedData = localStorage.getItem('spend100millionData');
+        
+        if (savedData) {
+          const parsedData = JSON.parse(savedData);
+          
+          appData.remainingMoney = parsedData.remainingMoney || appData.totalMoney;
+          appData.spentMoney = parsedData.spentMoney || 0;
+          appData.records = parsedData.records || [];
+          
+          // 更新显示
+          this.updateMoneyDisplay();
+          this.updateRecordsList();
+          this.updateRecentRecords();
+          this.updateStats();
+        }
+      },
+      
+      // 重置数据
+      resetData: function() {
+        appData.remainingMoney = appData.totalMoney;
+        appData.spentMoney = 0;
+        appData.records = [];
+        
+        // 更新显示
+        this.updateMoneyDisplay();
+        this.updateRecordsList();
+        this.updateRecentRecords();
+        this.updateStats();
+        
+        // 保存到本地存储
+        this.saveData();
+        
+        // 返回首页
+        this.showPage('home-page');
+      }
+    };
+
+    // 事件监听
+    document.addEventListener('DOMContentLoaded', function() {
+      // 加载数据
+      utils.loadData();
+      
+      // 导航按钮点击事件
+      elements.navBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const page = this.dataset.page + '-page';
+          utils.showPage(page);
+        });
+      });
+      
+      // 移动端导航按钮点击事件
+      elements.mobileNavBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const page = this.dataset.page + '-page';
+          utils.showPage(page);
+        });
+      });
+      
+      // 移动端菜单按钮点击事件
+      elements.mobileMenuBtn.addEventListener('click', function() {
+        elements.mobileMenu.classList.toggle('hidden');
+      });
+      
+      // 分类卡片点击事件
+      elements.categoryCards.forEach(card => {
+        card.addEventListener('click', function() {
+          const category = this.dataset.category;
+          appData.currentCategory = category;
+          
+          // 更新分类页标题和描述
+          elements.categoryTitle.textContent = appData.categoryNames[category];
+          elements.categoryDescription.textContent = appData.categoryDescriptions[category];
+          
+          // 生成商品列表
+          utils.generateProductList(category);
+          
+          // 显示分类页
+          utils.showPage('category-page');
+        });
+      });
+      
+      // 分类按钮点击事件
+      elements.categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          
+          const categoryCard = this.closest('.category-card');
+          const category = categoryCard.dataset.category;
+          appData.currentCategory = category;
+          
+          // 更新分类页标题和描述
+          elements.categoryTitle.textContent = appData.categoryNames[category];
+          elements.categoryDescription.textContent = appData.categoryDescriptions[category];
+          
+          // 生成商品列表
+          utils.generateProductList(category);
+          
+          // 显示分类页
+          utils.showPage('category-page');
+        });
+      });
+      
+      // 返回首页按钮点击事件
+      elements.backToHome.addEventListener('click', function() {
+        utils.showPage('home-page');
+      });
+      
+      // 返回分类页按钮点击事件
+      elements.backToCategory.addEventListener('click', function() {
+        utils.showPage('category-page');
+      });
+      
+      // 减少数量按钮点击事件
+      elements.decreaseQuantity.addEventListener('click', function() {
+        const quantity = parseInt(elements.productQuantity.value) || 1;
+        if (quantity > 1) {
+          elements.productQuantity.value = quantity - 1;
+          utils.updateTotalPrice();
+        }
+      });
+      
+      // 增加数量按钮点击事件
+      elements.increaseQuantity.addEventListener('click', function() {
+        const quantity = parseInt(elements.productQuantity.value) || 1;
+        elements.productQuantity.value = quantity + 1;
+        utils.updateTotalPrice();
+      });
+      
+      // 数量输入框变化事件
+      elements.productQuantity.addEventListener('change', function() {
+        let quantity = parseInt(this.value) || 1;
+        if (quantity < 1) {
+          quantity = 1;
+          this.value = 1;
+        }
+        utils.updateTotalPrice();
+      });
+      
+      // 立即购买按钮点击事件
+      elements.buyNowBtn.addEventListener('click', function() {
+        if (!appData.currentProduct) return;
+        
+        const quantity = parseInt(elements.productQuantity.value) || 1;
+        const totalPrice = appData.currentProduct.price * quantity;
+        
+        if (totalPrice > appData.remainingMoney) {
+          alert('余额不足，无法购买！');
+          return;
+        }
+        
+        // 添加消费记录
+        const record = utils.addRecord(appData.currentProduct, quantity);
+        
+        // 显示购买成功弹窗
+        utils.showPurchaseSuccessModal(record);
+      });
+      
+      // 查看全部记录按钮点击事件
+      elements.viewAllRecords.addEventListener('click', function() {
+        utils.showPage('records-page');
+      });
+      
+      // 记录排序下拉框变化事件
+      elements.recordsSort.addEventListener('change', function() {
+        utils.updateRecordsList();
+      });
+      
+      // 记录搜索框输入事件
+      elements.recordsSearch.addEventListener('input', function() {
+        utils.updateRecordsList();
+      });
+      
+      // 从记录页去首页按钮点击事件
+      elements.goToHomeFromRecords.addEventListener('click', function() {
+        utils.showPage('home-page');
+      });
+      
+      // 继续购物按钮点击事件
+      elements.continueShoppingBtn.addEventListener('click', function() {
+        elements.purchaseSuccessModal.classList.add('hidden');
+        utils.showPage('category-page');
+      });
+      
+      // 查看记录按钮点击事件
+      elements.viewRecordsBtn.addEventListener('click', function() {
+        elements.purchaseSuccessModal.classList.add('hidden');
+        utils.showPage('records-page');
+      });
+      
+      // 弹窗遮罩点击事件
+      elements.modalOverlay.addEventListener('click', function() {
+        elements.purchaseSuccessModal.classList.add('hidden');
+      });
+      
+      // 重置按钮点击事件
+      elements.resetBtn.addEventListener('click', function() {
+        elements.resetConfirmModal.classList.remove('hidden');
+      });
+      
+      // 移动端重置按钮点击事件
+      elements.mobileResetBtn.addEventListener('click', function() {
+        elements.resetConfirmModal.classList.remove('hidden');
+      });
+      
+      // 取消重置按钮点击事件
+      elements.cancelResetBtn.addEventListener('click', function() {
+        elements.resetConfirmModal.classList.add('hidden');
+      });
+      
+      // 确认重置按钮点击事件
+      elements.confirmResetBtn.addEventListener('click', function() {
+        elements.resetConfirmModal.classList.add('hidden');
+        utils.resetData();
+      });
+      
+      // 重置弹窗遮罩点击事件
+      elements.resetModalOverlay.addEventListener('click', function() {
+        elements.resetConfirmModal.classList.add('hidden');
+      });
+      
+      // 初始化图表
+      utils.updateCharts();
+    });
+  </script>
+
+
+</body></html>
